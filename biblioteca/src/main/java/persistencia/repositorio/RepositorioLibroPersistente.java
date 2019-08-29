@@ -16,6 +16,8 @@ public class RepositorioLibroPersistente implements RepositorioLibro, Repositori
 	private static final String ISBN = "isbn";
 	private static final String LIBRO_FIND_BY_ISBN = "Libro.findByIsbn";
 	
+	private static final String LISTAR_TODOS_LOS_LIBROS = "Libro.listar";
+	
 	private EntityManager entityManager;
 
 	public RepositorioLibroPersistente(EntityManager entityManager) {
@@ -36,7 +38,7 @@ public class RepositorioLibroPersistente implements RepositorioLibro, Repositori
 		
 		entityManager.persist(LibroBuilder.convertirAEntity(libro));
 		//borrar
-		listar() ;
+		//listar() ;
 	}
 
 	@Override
@@ -51,13 +53,20 @@ public class RepositorioLibroPersistente implements RepositorioLibro, Repositori
 	//Borrar
 	@Override
 	public void listar() {
+		
+		Query query = entityManager.createNamedQuery(LISTAR_TODOS_LOS_LIBROS);
+		List<LibroEntity> lista = query.getResultList();
+		for (LibroEntity fila : lista) {
+			System.out.println(fila.toString());
+		}
 	
-		List <Libro> libros = (List<Libro>)entityManager.createQuery("From Libro").getResultList();
+	
+		/*List <Libro> libros = (List<Libro>)entityManager.createQuery("From Libro").getResultList();
 		
 		for (int i = 0; i < libros.size(); i++) {
 			
 			System.out.println(libros.get(i).getTitulo());
-		}
+		}*/
 	}
 
 }
