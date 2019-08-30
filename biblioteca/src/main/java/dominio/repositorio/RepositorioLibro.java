@@ -18,7 +18,7 @@ public interface RepositorioLibro {
 	void agregar(Libro libro);
 	
 	/**
-	 * prueba
+	 * Permite obtener un listado de los libros
 	 */
 	void listar();
 

@@ -23,5 +23,10 @@ public interface RepositorioPrestamo {
 	 * @param isbn
 	 */
 	Prestamo obtener(String isbn);
+	
+	/**
+	 * Permite obtener listado de los prestamos realizados
+	 */
+	void listarPrestamos();
 
 }

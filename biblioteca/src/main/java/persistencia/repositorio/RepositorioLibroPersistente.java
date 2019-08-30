@@ -59,14 +59,7 @@ public class RepositorioLibroPersistente implements RepositorioLibro, Repositori
 		for (LibroEntity fila : lista) {
 			System.out.println(fila.toString());
 		}
-	
-	
-		/*List <Libro> libros = (List<Libro>)entityManager.createQuery("From Libro").getResultList();
-		
-		for (int i = 0; i < libros.size(); i++) {
-			
-			System.out.println(libros.get(i).getTitulo());
-		}*/
+
 	}
 
 }

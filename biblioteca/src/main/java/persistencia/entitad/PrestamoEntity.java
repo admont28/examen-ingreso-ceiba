@@ -8,10 +8,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
 @Entity(name="Prestamo")
-@NamedQuery(name = "Prestamo.findByIsbn", query = "SELECT prestamo from Prestamo prestamo where prestamo.libro.isbn = :isbn")
+@NamedQueries({
+	
+	@NamedQuery(name = "Prestamo.findByIsbn", query = "SELECT prestamo from Prestamo prestamo where prestamo.libro.isbn = :isbn"),
+	@NamedQuery(name = "Prestamo.listar", query = "SELECT prestamo from Prestamo prestamo"),
+})
 public class PrestamoEntity {
 
 	@Id
@@ -67,4 +72,12 @@ public class PrestamoEntity {
 	public void setNombreUsuario(String nombreUsuario) {
 		this.nombreUsuario = nombreUsuario;
 	}
+
+	@Override
+	public String toString() {
+		return "PrestamoEntity [id=" + id + ", libro=" + libro + ", fechaSolicitud=" + fechaSolicitud
+				+ ", fechaEntregaMaxima=" + fechaEntregaMaxima + ", nombreUsuario=" + nombreUsuario + "]";
+	}
+	
+	
 }

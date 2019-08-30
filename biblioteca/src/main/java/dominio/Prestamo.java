@@ -37,4 +37,11 @@ public class Prestamo {
 		return nombreUsuario;
 	}
 
+	@Override
+	public String toString() {
+		return "Prestamo [fechaSolicitud=" + fechaSolicitud + ", libro=" + libro + ", fechaEntregaMaxima="
+				+ fechaEntregaMaxima + ", nombreUsuario=" + nombreUsuario + "]";
+	}
+	
+
 }
