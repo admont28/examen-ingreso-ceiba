@@ -10,17 +10,27 @@ import testdatabuilder.LibroTestDataBuilder;
 public class LibroTest {
 
 	private static final int ANIO = 2010;
-	private static final String ISBN = "1234";
-	private static final String NOMBRE_LIBRO = "Cien años de soledad";
 
+	private static final String ISBN = "1234";
+
+	private static final String NOMBRE_LIBRO = "Cien años de soledad";
+	
+	/**
+	 * 
+	 * Método que permite testear que el libro esté creado con sus atributos
+	 *
+	 * @author	Jeison Julián Barbosa Serna<br>
+	 * 			Email: jjbarser@gmail.com<br>
+	 * 
+	 * @date	31/08/2019
+	 * @version 1.0
+	 *
+	 */
 	@Test
 	public void crearLibroTest() {
-		
+
 		// arrange
-		LibroTestDataBuilder libroTestDataBuilder = new LibroTestDataBuilder().
-				conTitulo(NOMBRE_LIBRO).
-				conIsbn(ISBN).
-				conAnio(ANIO);
+		LibroTestDataBuilder libroTestDataBuilder = new LibroTestDataBuilder().conTitulo(NOMBRE_LIBRO).conIsbn(ISBN).conAnio(ANIO);
 
 		// act
 		Libro libro = libroTestDataBuilder.build();

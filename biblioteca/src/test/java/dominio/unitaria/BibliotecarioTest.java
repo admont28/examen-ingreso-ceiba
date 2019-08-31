@@ -29,19 +29,21 @@ public class BibliotecarioTest {
 	private static final String ISBN_PALINDROMO = "RECONOCER";
 
 	private static final String ISBN_MAYOR_LIMITE = "7Y8U9R889";
+
 	private static final String ISBN_MENOR_LIMITE = "77AA";
 
 	private static final int ISBN_LIMITE = 40;
 
 	private static final int DIAS_PRESTAMO = 15;
+
 	/**
 	 * 
-	 * Método que permite 
+	 * Método que permite testear que el libro se encuentra prestado
 	 *
-	 * @author	Jeison Julián Barbosa Serna<br>
-	 * 			Email: jjbarser@gmail.com<br>
+	 * @author Jeison Julián Barbosa Serna<br>
+	 *         Email: jjbarser@gmail.com<br>
 	 * 
-	 * @date	31/08/2019
+	 * @date 31/08/2019
 	 * @version 1.0
 	 *
 	 */
@@ -66,7 +68,18 @@ public class BibliotecarioTest {
 		// assert
 		assertTrue(esPrestado);
 	}
-
+	
+	/**
+	 * 
+	 * Método que permite testear que el libro no esté prestado
+	 *
+	 * @author	Jeison Julián Barbosa Serna<br>
+	 * 			Email: jjbarser@gmail.com<br>
+	 * 
+	 * @date	31/08/2019
+	 * @version 1.0
+	 *
+	 */
 	@Test
 	public void libroNoPrestadoTest() {
 
@@ -88,7 +101,18 @@ public class BibliotecarioTest {
 		// assert
 		assertFalse(esPrestado);
 	}
-
+	
+	/**
+	 * 
+	 * Método que permite testear que lance la excepción si el libro no existe
+	 *
+	 * @author	Jeison Julián Barbosa Serna<br>
+	 * 			Email: jjbarser@gmail.com<br>
+	 * 
+	 * @date	31/08/2019
+	 * @version 1.0
+	 *
+	 */
 	@Test
 	public void libroNoExisteTest() {
 
@@ -114,7 +138,18 @@ public class BibliotecarioTest {
 			assertEquals(Bibliotecario.LIBRO_NO_EXISTE, e.getMessage());
 		}
 	}
-
+	
+	/**
+	 * 
+	 * Método que permite testear que lance la excepción si el isbn es palindromo
+	 *
+	 * @author	Jeison Julián Barbosa Serna<br>
+	 * 			Email: jjbarser@gmail.com<br>
+	 * 
+	 * @date	31/08/2019
+	 * @version 1.0
+	 *
+	 */
 	@Test
 	public void esPalindromoTest() {
 
@@ -140,7 +175,18 @@ public class BibliotecarioTest {
 			assertEquals(Bibliotecario.MENSAJE_PALINDROMO, e.getMessage());
 		}
 	}
-
+	
+	/**
+	 * 
+	 * Método que permite testear el conteo de los digitos númericos sea mayor o menor a el limite
+	 *
+	 * @author	Jeison Julián Barbosa Serna<br>
+	 * 			Email: jjbarser@gmail.com<br>
+	 * 
+	 * @date	31/08/2019
+	 * @version 1.0
+	 *
+	 */
 	@Test
 	public void limiteValorIsbnTest() {
 
@@ -160,7 +206,19 @@ public class BibliotecarioTest {
 		Assert.assertFalse(esMenor);
 
 	}
-
+	
+	/**
+	 * 
+	 * Método que permite testear que la fecha de entrega sea unos días posterior a la solicitud
+	 * de acuerdo a las reglas de negocio, no se cuentan los días domingo y si la fecha de entrega cae
+	 * un domingo deberá posponerse al siguiente día habil.
+	 * @author	Jeison Julián Barbosa Serna<br>
+	 * 			Email: jjbarser@gmail.com<br>
+	 * 
+	 * @date	31/08/2019
+	 * @version 1.0
+	 *
+	 */
 	@Test
 	public void fechaEntregaMaximaTest() {
 
@@ -197,7 +255,18 @@ public class BibliotecarioTest {
 		}
 
 	}
-
+	
+	/**
+	 * 
+	 * Método que permite testear si el isbn es null
+	 *
+	 * @author	Jeison Julián Barbosa Serna<br>
+	 * 			Email: jjbarser@gmail.com<br>
+	 * 
+	 * @date	31/08/2019
+	 * @version 1.0
+	 *
+	 */
 	@Test
 	public void IsbnNoEntregadoTest() {
 
@@ -223,7 +292,18 @@ public class BibliotecarioTest {
 			assertEquals(Bibliotecario.ISBN_NO_ENTREGADO, e.getMessage());
 		}
 	}
-
+	
+	/**
+	 * 
+	 * Método que permite testear si el isbn es vacío
+	 *
+	 * @author	Jeison Julián Barbosa Serna<br>
+	 * 			Email: jjbarser@gmail.com<br>
+	 * 
+	 * @date	31/08/2019
+	 * @version 1.0
+	 *
+	 */
 	@Test
 	public void IsbnVacioTest() {
 
@@ -245,7 +325,17 @@ public class BibliotecarioTest {
 		}
 	}
 	
-
+	/**
+	 * 
+	 * Método que permite testear se el usuario es vacío
+	 *
+	 * @author	Jeison Julián Barbosa Serna<br>
+	 * 			Email: jjbarser@gmail.com<br>
+	 * 
+	 * @date	31/08/2019
+	 * @version 1.0
+	 *
+	 */
 	@Test
 	public void usuarioVacioTest() {
 
@@ -269,7 +359,17 @@ public class BibliotecarioTest {
 			assertEquals(Bibliotecario.USUARIO_NO_ENVIADO, e.getMessage());
 		}
 	}
-	
+	/**
+	 * 
+	 * Método que permite testear si el usuario es null
+	 *
+	 * @author	Jeison Julián Barbosa Serna<br>
+	 * 			Email: jjbarser@gmail.com<br>
+	 * 
+	 * @date	31/08/2019
+	 * @version 1.0
+	 *
+	 */
 	@Test
 	public void usuarioNullTest() {
 

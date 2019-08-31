@@ -17,8 +17,10 @@ import persistencia.repositorio.jpa.RepositorioLibroJPA;
 public class RepositorioPrestamoPersistente implements RepositorioPrestamo {
 
 	private static final String ISBN = "isbn";
+
 	private static final String PRESTAMO_FIND_BY_ISBN = "Prestamo.findByIsbn";
-	private static final String LISTAR_PRESTAMOS="Prestamo.listar";
+
+	private static final String LISTAR_PRESTAMOS = "Prestamo.listar";
 
 	private EntityManager entityManager;
 
@@ -74,19 +76,17 @@ public class RepositorioPrestamoPersistente implements RepositorioPrestamo {
 
 		PrestamoEntity prestamoEntity = obtenerPrestamoEntityPorIsbn(isbn);
 
-		return new Prestamo(prestamoEntity.getFechaSolicitud(),
-				LibroBuilder.convertirADominio(prestamoEntity.getLibro()), prestamoEntity.getFechaEntregaMaxima(),
-				prestamoEntity.getNombreUsuario());
+		return new Prestamo(prestamoEntity.getFechaSolicitud(), LibroBuilder.convertirADominio(prestamoEntity.getLibro()), prestamoEntity.getFechaEntregaMaxima(), prestamoEntity.getNombreUsuario());
 	}
 
 	@Override
 	public void listarPrestamos() {
-		
+
 		Query query = entityManager.createNamedQuery(LISTAR_PRESTAMOS);
 		List<PrestamoEntity> lista = query.getResultList();
 		for (PrestamoEntity fila : lista) {
 			System.out.println(fila.toString());
 		}
-		
+
 	}
 }
