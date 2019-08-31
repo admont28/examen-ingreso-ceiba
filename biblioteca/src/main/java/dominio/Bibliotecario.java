@@ -1,5 +1,7 @@
 package dominio;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -25,17 +27,22 @@ public class Bibliotecario {
 	}
 
 	/**
-	 * Mï¿½todo que permite solicitar un prestamo de un libro por medio del isbn
-	 * 
-	 * @param isbn
-	 * @param usuario
+	 * Permite solicitar un prestamo de un libro por medio del isbn
+	 * Valida que exista el libro
+	 * Valida que no se encuentre prestado
+	 * Valida si el isbn es palindromo
+	 * Valida el el valor limite de los digitos del isbn 
+	 * Setea fecha de entrega de acuerdo al numero de digitos
+	 * @param isbn, código que identifica el libro
+	 * @param usuario, usurio quien va a solicitar el prestamo del libro
 	 */
 	public void prestar(String isbn, String nombreUsuario) {
 
 		Libro libroPrestado = repositorioPrestamo.obtenerLibroPrestadoPorIsbn(isbn);
 		Libro libroExiste = repositorioLibro.obtenerPorIsbn(isbn);
 
-		// Validar si el libro ya estï¿½ prestado, si es asï¿½ el libroPrestado es
+		// Validar si el libro ya está prestado, si es asï¿½ el libroPrestado
+		// es
 		// diferente de null
 		if (libroPrestado != null) {
 			throw new PrestamoException(EL_LIBRO_NO_SE_ENCUENTRA_DISPONIBLE);
@@ -57,21 +64,9 @@ public class Bibliotecario {
 			// Realiza el calculo de la fecha mï¿½xima de entrega.
 			Date fechaMaximaEntrega = null;
 			if (esSumaISBNMayorA(isbn, LIMITE_SUMA_ISBN)) {
-				Calendar cal = Calendar.getInstance();
-				int i = 1;
-				while (i < DIAS_PRESTAMO_RESTRICCION) {
 
-					if (cal.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
-						i++;
-						cal.get(Calendar.DAY_OF_WEEK);
-					}
-					cal.add(Calendar.DATE, 1);
+				fechaMaximaEntrega = generarFechaEntrega();
 
-				}
-				if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
-					cal.add(Calendar.DATE, 1);
-				}
-				fechaMaximaEntrega = cal.getTime();
 			}
 			Prestamo prestamo = new Prestamo(new Date(), repositorioLibro.obtenerPorIsbn(isbn), fechaMaximaEntrega,
 					nombreUsuario);
@@ -83,7 +78,7 @@ public class Bibliotecario {
 	/**
 	 * Permite validar si el libro ya se encuentra prestado
 	 * 
-	 * @param isbn
+	 * @param isbn, código que identifica el libro
 	 * @return boolean
 	 */
 	public boolean esPrestado(String isbn) {
@@ -93,18 +88,18 @@ public class Bibliotecario {
 	/**
 	 * Permite validar si el texto ingresado es un palindromo
 	 * 
-	 * @param str
-	 * @return
+	 * @param isbn
+	 * @return verdadero cuando el isbn es palindromo ej: 1221
 	 */
-	public boolean esPalindromo(String str) {
-		return str.equals(new StringBuilder(str).reverse().toString());
+	public boolean esPalindromo(String isbn) {
+		return isbn.equals(new StringBuilder(isbn).reverse().toString());
 	}
 
 	/**
-	 * Mï¿½todo que valida si el isbn cumple con la cantidad numerica mï¿½xima como
-	 * restricciï¿½n de fecha de entrega
+	 * Mï¿½todo que valida si el isbn cumple con la cantidad numerica mï¿½xima
+	 * como restricciï¿½n de fecha de entrega
 	 * 
-	 * @param isbn
+	 * @param isbn, código que identifica el libro
 	 * @param limit
 	 * @return boolean
 	 */
@@ -123,5 +118,31 @@ public class Bibliotecario {
 		}
 		return false;
 
+	}
+
+	/**
+	 * Valida que la fecha de entrega sea un numero de días posterior a el día
+	 * de solicitud sin contar domingos
+	 * 
+	 * @return
+	 */
+	public Date generarFechaEntrega() {
+
+		Calendar cal = Calendar.getInstance();
+		int i = 1;
+		while (i < DIAS_PRESTAMO_RESTRICCION) {
+
+			if (cal.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
+				i++;
+				cal.get(Calendar.DAY_OF_WEEK);
+			}
+			cal.add(Calendar.DATE, 1);
+
+		}
+		if (cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+			cal.add(Calendar.DATE, 1);
+		}
+
+		return cal.getTime();
 	}
 }
