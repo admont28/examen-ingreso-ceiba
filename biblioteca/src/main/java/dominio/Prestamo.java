@@ -20,7 +20,7 @@ public class Prestamo {
 		this.fechaEntregaMaxima = fechaEntregaMaxima;
 		this.nombreUsuario = nombreUsuario;
 	}
-
+	
 	public Date getFechaSolicitud() {
 		return fechaSolicitud;
 	}

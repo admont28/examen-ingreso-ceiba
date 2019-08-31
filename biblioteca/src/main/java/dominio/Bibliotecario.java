@@ -10,10 +10,14 @@ import dominio.repositorio.RepositorioPrestamo;
 public class Bibliotecario {
 
 	public static final String EL_LIBRO_NO_SE_ENCUENTRA_DISPONIBLE = "El libro no se encuentra disponible";
-	public static final String MENSAJE_PALINDROMO = "los libros palï¿½ndromos solo se pueden utilizar en la biblioteca";
+	public static final String MENSAJE_PALINDROMO = "los libros palindromos solo se pueden utilizar en la biblioteca";
+	public static final String ISBN_NO_ENTREGADO = "El ISBN no fue entregado para el prestamo del libro";
+	public static final String USUARIO_NO_ENVIADO = "El usuario no fue entregado para el prestamo del libro";
 	public static final String LIBRO_NO_EXISTE = "El libro no existe";
 	public static final int LIMITE_SUMA_ISBN = 30;
 	public static final int DIAS_PRESTAMO_RESTRICCION = 15;
+
+	
 
 	private RepositorioLibro repositorioLibro;
 	private RepositorioPrestamo repositorioPrestamo;
@@ -39,14 +43,20 @@ public class Bibliotecario {
 
 		Libro libroPrestado = repositorioPrestamo.obtenerLibroPrestadoPorIsbn(isbn);
 		Libro libroExiste = repositorioLibro.obtenerPorIsbn(isbn);
-
+		if (isbn == null || isbn.trim().equals("")) {
+			throw new PrestamoException(ISBN_NO_ENTREGADO);
+		}
+		
+		if (nombreUsuario == null || nombreUsuario.trim().equals("")) {
+			throw new PrestamoException(USUARIO_NO_ENVIADO);
+		}
 		// Validar si el libro ya está prestado, si es asï¿½ el libroPrestado
 		// es
 		// diferente de null
 		if (libroPrestado != null) {
 			throw new PrestamoException(EL_LIBRO_NO_SE_ENCUENTRA_DISPONIBLE);
 		}
-		// TODO: Validar si el libro existe en el repositorio de libros
+		//Validar si el libro existe en el repositorio de libros
 
 		else if (libroExiste == null) {
 			throw new PrestamoException(LIBRO_NO_EXISTE);
@@ -63,9 +73,9 @@ public class Bibliotecario {
 			// Realiza el calculo de la fecha mï¿½xima de entrega.
 			Date fechaMaximaEntrega = null;
 			if (esSumaISBNMayorA(isbn, LIMITE_SUMA_ISBN)) {
-				fechaMaximaEntrega = generarFechaEntrega(DIAS_PRESTAMO_RESTRICCION);
+				fechaMaximaEntrega = generarFechaEntrega(DIAS_PRESTAMO_RESTRICCION, new Date());
 			}
-			Prestamo prestamo = new Prestamo(fechaActual(new Date()), repositorioLibro.obtenerPorIsbn(isbn), fechaMaximaEntrega,
+			Prestamo prestamo = new Prestamo(new Date(), repositorioLibro.obtenerPorIsbn(isbn), fechaMaximaEntrega,
 					nombreUsuario);
 			repositorioPrestamo.agregar(prestamo);
 		}
@@ -128,9 +138,10 @@ public class Bibliotecario {
 	 * 
 	 * @return la fecha en tipo date que se obtiene del proceso
 	 */
-	public Date generarFechaEntrega(int dias) {
+	public Date generarFechaEntrega(int dias, Date fechaSolicitud) {
 
 		Calendar cal = Calendar.getInstance();
+		cal.setTime(fechaSolicitud);
 		int i = 1;
 		while (i < dias) {
 
@@ -147,12 +158,5 @@ public class Bibliotecario {
 
 		return cal.getTime();
 	}
-	/**
-	 * Método creado para hacer test de la fecha de entrega de acuerdo a las reglas de negocio
-	 * Poder modificar la fecha de solicitud
-	 * @return
-	 */
-	public Date fechaActual(Date fechaSolicitud){
-		return fechaSolicitud;
-	}
+
 }

@@ -21,8 +21,8 @@ public class BibliotecarioTest {
 	private static final String CRONICA_DE_UNA_MUERTA_ANUNCIADA = "Cronica de una muerta anunciada";
 	private static final String USUARIO_JEISON = "Jeison Barbosa";
 	private static final String ISBN = "1221";
-	private static final String ISBN_VALOR_LIMITE = "7Y8U9R889";
-	private static final String ISBN_VALOR_PERMITIDO = "7Y8";
+	private static final String ISBN_MAYOR_LIMITE = "7Y8U9R889";
+	private static final String ISBN_MENOR_LIMITE = "7Y8";
 	
 
 	private SistemaDePersistencia sistemaPersistencia;
@@ -86,40 +86,20 @@ public class BibliotecarioTest {
 		}
 	}
 
-	@Test
-	public void prestarMasDeUnaVezTest() {
-
-		// arrange
-		Libro libro = new LibroTestDataBuilder().conTitulo(CRONICA_DE_UNA_MUERTA_ANUNCIADA).build();
-		repositorioLibros.agregar(libro);
-		Bibliotecario blibliotecario = new Bibliotecario(repositorioLibros, repositorioPrestamo);
-
-		
-		try {
-			// act
-			blibliotecario.prestar(libro.getIsbn(), USUARIO_JEISON);
-			blibliotecario.prestar(libro.getIsbn(), USUARIO_JEISON);
-			fail();
-
-		} catch (PrestamoException e) {
-			// assert
-			Assert.assertEquals(Bibliotecario.EL_LIBRO_NO_SE_ENCUENTRA_DISPONIBLE, e.getMessage());
-		}
-	}
 	
 	@Test
 	public void conFechaEntregaTest() {
 
 		// arrange
-		Libro libro = new LibroTestDataBuilder().conIsbn(ISBN_VALOR_LIMITE).conTitulo(CRONICA_DE_UNA_MUERTA_ANUNCIADA).build();
+		Libro libro = new LibroTestDataBuilder().conIsbn(ISBN_MAYOR_LIMITE).conTitulo(CRONICA_DE_UNA_MUERTA_ANUNCIADA).build();
 		repositorioLibros.agregar(libro);
 		Bibliotecario blibliotecario = new Bibliotecario(repositorioLibros, repositorioPrestamo);
 
 		// act
-		blibliotecario.prestar(ISBN_VALOR_LIMITE, USUARIO_JEISON);
+		blibliotecario.prestar(ISBN_MAYOR_LIMITE, USUARIO_JEISON);
 		
-		Prestamo prestado=repositorioPrestamo.obtener(ISBN_VALOR_LIMITE);
-	
+		Prestamo prestado=repositorioPrestamo.obtener(ISBN_MAYOR_LIMITE);
+		// assert
 		Assert.assertNotNull(prestado.getFechaEntregaMaxima());
 	}
 	
@@ -128,14 +108,14 @@ public class BibliotecarioTest {
 	public void sinFechaEntregaTest() {
 
 		// arrange
-		Libro libro = new LibroTestDataBuilder().conIsbn(ISBN_VALOR_PERMITIDO).conTitulo(CRONICA_DE_UNA_MUERTA_ANUNCIADA).build();
+		Libro libro = new LibroTestDataBuilder().conIsbn(ISBN_MENOR_LIMITE).conTitulo(CRONICA_DE_UNA_MUERTA_ANUNCIADA).build();
 		repositorioLibros.agregar(libro);
 		Bibliotecario blibliotecario = new Bibliotecario(repositorioLibros, repositorioPrestamo);
 
 		// act
-		blibliotecario.prestar(ISBN_VALOR_PERMITIDO, USUARIO_JEISON);
+		blibliotecario.prestar(ISBN_MENOR_LIMITE, USUARIO_JEISON);
 		
-		Prestamo prestado=repositorioPrestamo.obtener(ISBN_VALOR_PERMITIDO);
+		Prestamo prestado=repositorioPrestamo.obtener(ISBN_MENOR_LIMITE);
 	
 		Assert.assertNull(prestado.getFechaEntregaMaxima());
 	}
