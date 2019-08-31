@@ -26,6 +26,7 @@ public class BibliotecarioTest {
 	private static final String ISBN_PALINDROMO = "RECONOCER";
 	private static final String ISBN_VALOR_LIMITE = "7Y8U9R889";
 	private static final int ISBN_LIMITE = 40;
+	private static final int DIAS_PRESTAMO = 16;
 
 	@Test
 	public void esPrestadoTest() {
@@ -160,11 +161,11 @@ public class BibliotecarioTest {
 		Bibliotecario bibliotecario = new Bibliotecario(repositorioLibro, repositorioPrestamo);
 
 		// act
-		Date fechaFinalEntrega = bibliotecario.generarFechaEntrega();
+		Date fechaFinalEntrega = bibliotecario.generarFechaEntrega(DIAS_PRESTAMO);
 		LocalDate localDate = fechaFinalEntrega.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
 		// assert
-		Assert.assertEquals("2019-SEPTEMBER-16",
+		Assert.assertEquals("2019-SEPTEMBER-17",
 				localDate.getYear() + "-" + localDate.getMonth() + "-" + localDate.getDayOfMonth());
 
 	}

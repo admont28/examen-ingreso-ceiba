@@ -27,14 +27,15 @@ public class Bibliotecario {
 	}
 
 	/**
-	 * Permite solicitar un prestamo de un libro por medio del isbn
-	 * Valida que exista el libro
-	 * Valida que no se encuentre prestado
-	 * Valida si el isbn es palindromo
-	 * Valida el el valor limite de los digitos del isbn 
-	 * Setea fecha de entrega de acuerdo al numero de digitos
-	 * @param isbn, código que identifica el libro
-	 * @param usuario, usurio quien va a solicitar el prestamo del libro
+	 * Permite solicitar un prestamo de un libro por medio del isbn Valida que
+	 * exista el libro Valida que no se encuentre prestado Valida si el isbn es
+	 * palindromo Valida el el valor limite de los digitos del isbn Setea fecha
+	 * de entrega de acuerdo al numero de digitos
+	 * 
+	 * @param isbn,
+	 *            código que identifica el libro
+	 * @param usuario,
+	 *            usurio quien va a solicitar el prestamo del libro
 	 */
 	public void prestar(String isbn, String nombreUsuario) {
 
@@ -65,7 +66,7 @@ public class Bibliotecario {
 			Date fechaMaximaEntrega = null;
 			if (esSumaISBNMayorA(isbn, LIMITE_SUMA_ISBN)) {
 
-				fechaMaximaEntrega = generarFechaEntrega();
+				fechaMaximaEntrega = generarFechaEntrega(DIAS_PRESTAMO_RESTRICCION);
 
 			}
 			Prestamo prestamo = new Prestamo(new Date(), repositorioLibro.obtenerPorIsbn(isbn), fechaMaximaEntrega,
@@ -78,7 +79,8 @@ public class Bibliotecario {
 	/**
 	 * Permite validar si el libro ya se encuentra prestado
 	 * 
-	 * @param isbn, código que identifica el libro
+	 * @param isbn,
+	 *            código que identifica el libro
 	 * @return boolean
 	 */
 	public boolean esPrestado(String isbn) {
@@ -88,7 +90,8 @@ public class Bibliotecario {
 	/**
 	 * Permite validar si el texto ingresado es un palindromo
 	 * 
-	 * @param isbn
+	 * @param isbn,
+	 *            código que identifica el libro
 	 * @return verdadero cuando el isbn es palindromo ej: 1221
 	 */
 	public boolean esPalindromo(String isbn) {
@@ -96,12 +99,15 @@ public class Bibliotecario {
 	}
 
 	/**
-	 * Mï¿½todo que valida si el isbn cumple con la cantidad numerica mï¿½xima
-	 * como restricciï¿½n de fecha de entrega
+	 * Permite validar si el isbn cumple con una cantidad máxima en la suma de
+	 * susdigitos como restricciï¿½n de fecha de entrega
 	 * 
-	 * @param isbn, código que identifica el libro
-	 * @param limit
-	 * @return boolean
+	 * @param isbn,
+	 *            código que identifica el libro
+	 * @param limit,
+	 *            Valor máximo que puede sumar los digitos númericos del códgio
+	 *            isbn
+	 * @return verdadero si supera el valor limite
 	 */
 	public boolean esSumaISBNMayorA(String isbn, int limit) {
 		int sum = 0;
@@ -121,16 +127,16 @@ public class Bibliotecario {
 	}
 
 	/**
-	 * Valida que la fecha de entrega sea un numero de días posterior a el día
-	 * de solicitud sin contar domingos
+	 * Genera fecha de entrega sea un número de días posterior a el día de
+	 * solicitud sin contar domingos
 	 * 
-	 * @return
+	 * @return la fecha en tipo date que se obtiene del proceso
 	 */
-	public Date generarFechaEntrega() {
+	public Date generarFechaEntrega(int dias) {
 
 		Calendar cal = Calendar.getInstance();
 		int i = 1;
-		while (i < DIAS_PRESTAMO_RESTRICCION) {
+		while (i < dias) {
 
 			if (cal.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
 				i++;
