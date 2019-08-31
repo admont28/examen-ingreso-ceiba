@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import dominio.Bibliotecario;
 import dominio.Libro;
+import dominio.Prestamo;
 import dominio.excepcion.PrestamoException;
 import dominio.repositorio.RepositorioLibro;
 import dominio.repositorio.RepositorioPrestamo;
@@ -20,6 +21,8 @@ public class BibliotecarioTest {
 	private static final String CRONICA_DE_UNA_MUERTA_ANUNCIADA = "Cronica de una muerta anunciada";
 	private static final String USUARIO_JEISON = "Jeison Barbosa";
 	private static final String ISBN = "1221";
+	private static final String ISBN_VALOR_LIMITE = "7Y8U9R889";
+	private static final String ISBN_VALOR_PERMITIDO = "7Y8";
 	
 
 	private SistemaDePersistencia sistemaPersistencia;
@@ -103,4 +106,38 @@ public class BibliotecarioTest {
 			Assert.assertEquals(Bibliotecario.EL_LIBRO_NO_SE_ENCUENTRA_DISPONIBLE, e.getMessage());
 		}
 	}
+	
+	@Test
+	public void conFechaEntregaTest() {
+
+		// arrange
+		Libro libro = new LibroTestDataBuilder().conIsbn(ISBN_VALOR_LIMITE).conTitulo(CRONICA_DE_UNA_MUERTA_ANUNCIADA).build();
+		repositorioLibros.agregar(libro);
+		Bibliotecario blibliotecario = new Bibliotecario(repositorioLibros, repositorioPrestamo);
+
+		// act
+		blibliotecario.prestar(ISBN_VALOR_LIMITE, USUARIO_JEISON);
+		
+		Prestamo prestado=repositorioPrestamo.obtener(ISBN_VALOR_LIMITE);
+	
+		Assert.assertNotNull(prestado.getFechaEntregaMaxima());
+	}
+	
+	
+	@Test
+	public void sinFechaEntregaTest() {
+
+		// arrange
+		Libro libro = new LibroTestDataBuilder().conIsbn(ISBN_VALOR_PERMITIDO).conTitulo(CRONICA_DE_UNA_MUERTA_ANUNCIADA).build();
+		repositorioLibros.agregar(libro);
+		Bibliotecario blibliotecario = new Bibliotecario(repositorioLibros, repositorioPrestamo);
+
+		// act
+		blibliotecario.prestar(ISBN_VALOR_PERMITIDO, USUARIO_JEISON);
+		
+		Prestamo prestado=repositorioPrestamo.obtener(ISBN_VALOR_PERMITIDO);
+	
+		Assert.assertNull(prestado.getFechaEntregaMaxima());
+	}
+	
 }

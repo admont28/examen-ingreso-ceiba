@@ -7,8 +7,6 @@ import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Date;
 
 import org.junit.Assert;
@@ -146,28 +144,5 @@ public class BibliotecarioTest {
 
 	}
 
-	@Test
-	public void fechaEntregaTest() {
-
-		// arrange
-		LibroTestDataBuilder libroTestDataBuilder = new LibroTestDataBuilder();
-		Libro libro = libroTestDataBuilder.build();
-
-		RepositorioPrestamo repositorioPrestamo = mock(RepositorioPrestamo.class);
-		RepositorioLibro repositorioLibro = mock(RepositorioLibro.class);
-
-		when(repositorioLibro.obtenerPorIsbn(libro.getIsbn())).thenReturn(libro);
-
-		Bibliotecario bibliotecario = new Bibliotecario(repositorioLibro, repositorioPrestamo);
-
-		// act
-		Date fechaFinalEntrega = bibliotecario.generarFechaEntrega(DIAS_PRESTAMO);
-		LocalDate localDate = fechaFinalEntrega.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-
-		// assert
-		Assert.assertEquals("2019-SEPTEMBER-17",
-				localDate.getYear() + "-" + localDate.getMonth() + "-" + localDate.getDayOfMonth());
-
-	}
 
 }

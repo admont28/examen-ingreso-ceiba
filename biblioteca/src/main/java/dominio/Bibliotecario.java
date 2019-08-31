@@ -1,7 +1,5 @@
 package dominio;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -65,11 +63,9 @@ public class Bibliotecario {
 			// Realiza el calculo de la fecha mï¿½xima de entrega.
 			Date fechaMaximaEntrega = null;
 			if (esSumaISBNMayorA(isbn, LIMITE_SUMA_ISBN)) {
-
 				fechaMaximaEntrega = generarFechaEntrega(DIAS_PRESTAMO_RESTRICCION);
-
 			}
-			Prestamo prestamo = new Prestamo(new Date(), repositorioLibro.obtenerPorIsbn(isbn), fechaMaximaEntrega,
+			Prestamo prestamo = new Prestamo(fechaActual(new Date()), repositorioLibro.obtenerPorIsbn(isbn), fechaMaximaEntrega,
 					nombreUsuario);
 			repositorioPrestamo.agregar(prestamo);
 		}
@@ -150,5 +146,13 @@ public class Bibliotecario {
 		}
 
 		return cal.getTime();
+	}
+	/**
+	 * Método creado para hacer test de la fecha de entrega de acuerdo a las reglas de negocio
+	 * Poder modificar la fecha de solicitud
+	 * @return
+	 */
+	public Date fechaActual(Date fechaSolicitud){
+		return fechaSolicitud;
 	}
 }
